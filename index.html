@@ -74,11 +74,11 @@
   .day-count { font-size: 0.78rem; color: var(--ink-soft); margin-left: auto; }
   .day.is-today .day-date { color: var(--today); }
   .day.is-today .day-date::after { content: "today"; font-size: 0.7rem; font-weight: 600; color: var(--paper); background: var(--today); border-radius: 3px; padding: 0.05rem 0.35rem; margin-left: 0.5rem; vertical-align: 0.12em; }
-  .day.is-past { opacity: 0.55; }
+  .day.is-past .day-head { opacity: 0.55; }
 
   .item { display: flex; align-items: flex-start; gap: 0.7rem; padding: 0.4rem 0.5rem 0.4rem 0.55rem; border-left: 3px solid var(--accent, var(--c-other)); border-radius: 0 5px 5px 0; margin-bottom: 0.3rem; transition: background .12s; }
   .item:hover { background: #f4f1e9; }
-  .item.done { background: var(--done-bg); padding-top: 0.12rem; padding-bottom: 0.12rem; margin-bottom: 0.15rem; align-items: center; }
+  .item.done { opacity: 0.6; background: var(--done-bg); padding-top: 0.12rem; padding-bottom: 0.12rem; margin-bottom: 0.15rem; align-items: center; }
   .item.done .title { text-decoration: line-through; color: var(--ink-soft); font-size: 0.84rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .item.done .meta { display: none; }
   .item.done input[type=checkbox] { width: 14px; height: 14px; margin-top: 0; }
