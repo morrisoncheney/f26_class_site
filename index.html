@@ -659,8 +659,6 @@ const DOW=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday
 function parseDate(d){ const[y,m,day]=d.split("-").map(Number); return new Date(y,m-1,day); }
 function fmtDate(d){ const dt=parseDate(d); return MONTHS[dt.getMonth()]+" "+dt.getDate(); }
 function fmtDow(d){ return DOW[parseDate(d).getDay()]; }
-function shiftDate(d,days){ const dt=parseDate(d); dt.setDate(dt.getDate()+days);
-  return dt.getFullYear()+"-"+String(dt.getMonth()+1).padStart(2,"0")+"-"+String(dt.getDate()).padStart(2,"0"); }
 function todayStr(){ const n=new Date(); return n.getFullYear()+"-"+String(n.getMonth()+1).padStart(2,"0")+"-"+String(n.getDate()).padStart(2,"0"); }
 function clsInfo(name){ return CLASSES[name]||CLASSES["Other"]; }
 
@@ -697,17 +695,16 @@ function renderFilters(){
 
 function renderList(){
   const today=todayStr();
-  const doneCutoff=shiftDate(today,-7);
   let visible=items.filter(i=>{
     if(hiddenClasses.has(i.cls))return false;
     if(hideDone&&i.done)return false;
-    if(condensed&&i.done&&i.date<doneCutoff)return false;
     if(hideBusy&&i.busy&&!i.done)return false;
     return true;
   });
   const byDate={};
   visible.forEach(i=>{(byDate[i.date]=byDate[i.date]||[]).push(i);});
-  const dates=Object.keys(byDate).sort();
+  // condensed: drop past days with nothing left to do
+  const dates=Object.keys(byDate).sort().filter(d=>!(condensed&&d<today&&byDate[d].every(i=>i.done)));
   if(!dates.length){ listEl.innerHTML=`<div class="empty">Nothing matches these filters. Turn a class back on, or add something new below.</div>`; return; }
   const rank=Object.keys(CLASSES);
   listEl.innerHTML=dates.map(date=>{
